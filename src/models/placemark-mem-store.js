@@ -25,4 +25,4 @@ export const placemarkMemStore = {
     async deleteAllPlacemarks() {
         placemarks = [];
     }
-}
+};
