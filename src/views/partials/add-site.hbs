@@ -1,0 +1,23 @@
+<form class="box" action="/placemark/{{placemark._id}}/addsite" method="POST">
+    <label>Enter Historic Site Details:</label>
+    <div class="field is-horizontal">
+        <div class="field-body">
+            <div class="field">
+                <input class="input" type="text" placeholder="Enter Title" name="title">
+            </div>
+            <div class="field">
+                <input class="input" type="text" placeholder="Enter Year Built" name="year">
+            </div>
+            <div class="field">
+                <input class="input" type="text" placeholder="Enter Latitude" name="latitude">
+            </div>
+            <div class="field">
+                <input class="input" type="text" placeholder="Enter Longitude" name="longitude">
+            </div>
+            <div class="field">
+                <input class="input" type="text" placeholder="Enter Description" name="description">
+            </div>
+        </div>
+    </div>
+    <button class="button is-primary">Add Historic Site</button>
+</form>
