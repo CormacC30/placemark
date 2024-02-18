@@ -16,6 +16,7 @@ export const dashboardController = {
       handler: async function (request, h) {
         const newPlacemark = {
           name: request.payload.name,
+          category: request.payload.category,
         };
         await db.placemarkStore.addPlacemark(newPlacemark);
         return h.redirect("/dashboard");

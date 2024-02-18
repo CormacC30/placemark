@@ -1,7 +1,15 @@
 {{#each placemarks}}
-    <div class="box box-link-hover-shadow">
-        <h2 class="title">
-            {{name}}
-        </h2>
-    </div>
+<div class="box box-link-hover-shadow">
+    <h2 class="title">
+        {{name}}
+    </h2>
+    <h3 class="is-size-4">
+        Category: {{category}}
+    </h3>
+    <a href="/placemark/{{_id}}" class="button">
+        <span class="icon is-small">
+            <i class="fas fa-folder-open"></i>
+        </span>
+    </a>
+</div>
 {{/each}}
