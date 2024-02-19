@@ -20,7 +20,7 @@ export const placemarkMemStore = {
         return list;
     },
 
-    async deletePlacemarkById(id){
+    async deletePlacemark(id){
         const index = placemarks.findIndex((placemark) => placemark._id  === id);
         placemarks.splice(index, 1);
     },

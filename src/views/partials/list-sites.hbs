@@ -5,6 +5,7 @@
             <th>Year</th>
             <th>Location</th>
             <th>Description</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,11 @@
             </td>
             <td>
                 {{description}}
+            </td>
+            <td>
+                <a href="/placemark/{{../placemark._id}}/deletesite/{{_id}}" class="button">
+                <i class="fas fa-trash"></i>
+                </a>
             </td>
         </tr>
         {{/each}}

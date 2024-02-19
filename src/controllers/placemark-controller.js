@@ -28,4 +28,12 @@ export const placemarkController = {
             return h.redirect(`/placemark/${placemark._id}`);
         },
     },
+
+    deleteSite: {
+        handler: async function (request, h) {
+            const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
+            await db.siteStore.deleteSite(request.params.trackid);
+            return h.redirect(`/placemark/${placemark._id}`);
+        },
+    },
 };
