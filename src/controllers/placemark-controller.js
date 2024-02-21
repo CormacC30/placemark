@@ -1,4 +1,5 @@
 import { db } from "../models/db.js";
+import { SiteSpec } from "../models/joi-schemas.js";
 
 export const placemarkController = {
     index: {
@@ -13,6 +14,13 @@ export const placemarkController = {
     },
 
     addSite: {
+        validate: {
+            payload: SiteSpec,
+            options: { abortEarly: false },
+            failAction: function (request, h, error) {
+                return h.view("placemark-view", { title: "Add Historic site error", errors: error.details }).takeover().code(400);
+            },
+        },
         handler: async function (request, h) {
             const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
             
