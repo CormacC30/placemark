@@ -27,17 +27,53 @@ export const maggie = {
   ];
 
   export const town = {
-    title: "Bantry"
+    name: "Bantry",
+    category: "test"
   };
   
   export const testPlacemarks = [
     {
-      title: "Graiguenemanagh"
+      name: "Graiguenemanagh",
+      category: "test1"
     },
     {
-      title: "Kealkil"
+      name: "Kealkil",
+      category: "test2"
     },
     {
-      title: "Rosscarbery"
+      name: "Rosscarbery",
+      category: "test3"
     }
   ];
+
+  export const newgrange = {
+    title: "testio",
+    year: "1200",
+    era: "BC",
+    latitude: "54.2",
+    longitude: "4.2" 
+  };
+
+  export const testSites = [
+    {
+      title: "testio",
+      year: "1200",
+      era: "BC",
+      latitude: "54.2",
+      longitude: "4.2"
+    },
+    {
+      title: "testino",
+      year: "1200",
+      era: "AD",
+      latitude: "50",
+      longitude: "-6"
+    },
+    {
+      title: "testaroo",
+      year: "900",
+      era: "AD",
+      latitude: "50.8",
+      longitude: "-6.1"
+    },
+  ]

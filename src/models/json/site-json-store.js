@@ -18,20 +18,22 @@ export const siteJsonStore = {
     
       async getSitesByPlacemarkId(id) {
         await db.read();
-        let u = db.data.sites.find((site) => site.placemarkid === id);
-        if (u === undefined) u = null;
-        return u;
+        let list = db.data.sites.filter((site) => site.placemarkid === id);
+        if (list === undefined) list = null;
+        return list;
       },
     
       async getSiteById(id) {
         await db.read();
-        return db.data.sites.find((site) => site._id === id);
-      },
+        let u = db.data.sites.find((site) => site._id === id);
+        if (u === undefined) u = null;
+        return u;  
+    },
     
       async deleteSite(id) {
         await db.read();
         const index = db.data.sites.findIndex((site) => site._id === id);
-        db.data.sites.splice(index, 1);
+        if (index !== -1) db.data.sites.splice(index, 1);
         await db.write();
       },
     
@@ -42,8 +44,10 @@ export const siteJsonStore = {
     
       async updateSite(site, updatedSite) {
         site.title = updatedSite.title;
-        site.artist = updatedSite.artist;
-        site.duration = updatedSite.duration;
+        site.year = updatedSite.year;
+        site.era = updatedSite.era;
+        site.latitude = updatedSite.latitude;
+        site.longitude = updatedSite.longitude;
         await db.write();
       },
 };
