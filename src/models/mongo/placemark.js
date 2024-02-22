@@ -3,7 +3,7 @@ import Mongoose from "mongoose";
 const { Schema } = Mongoose;
 
 const placemarkSchema = new Schema({
-  title: String,
+  name: String,
   category: String,
   userid: {
     type: Schema.Types.ObjectId,
