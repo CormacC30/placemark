@@ -26,6 +26,7 @@
       "no-undef": "off",
       "func-names": "off",
       "no-console": "off",
-      "prefer-const": "off"
+      "prefer-const": "off",
+      "import/no-unresolved": "off"
     }
   }

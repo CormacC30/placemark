@@ -5,23 +5,36 @@
       "lastName": "Simpson",
       "email": "homer@simpson.com",
       "password": "secret",
-      "_id": "e191eaa0-8217-43b0-973d-b77f96a6e79d"
+      "_id": "1b9e1117-3e12-4e26-919b-1528e1cae811"
     },
     {
       "firstName": "Marge",
       "lastName": "Simpson",
       "email": "marge@simpson.com",
       "password": "secret",
-      "_id": "65dae1c1-f48e-4647-a8fc-c913c439f9a3"
+      "_id": "df5ef6c5-ef26-4d5c-ad16-295466a38454"
     },
     {
       "firstName": "Bart",
       "lastName": "Simpson",
       "email": "bart@simpson.com",
       "password": "secret",
-      "_id": "02407b86-9e56-4f75-aace-1669e13d9ce0"
+      "_id": "39716d2a-94d8-4701-8ed0-524788997b19"
     }
   ],
-  "playlists": [],
-  "tracks": []
+  "placemarks": [
+    {
+      "title": "Graiguenemanagh",
+      "_id": "fa1135f3-a70f-42d1-b6bd-bcd9865f5f0f"
+    },
+    {
+      "title": "Kealkil",
+      "_id": "cccaa8cc-8097-480c-85f1-f163c5f7ba0a"
+    },
+    {
+      "title": "Rosscarbery",
+      "_id": "4c472948-3d3e-46bf-90f9-6dc86a6f5e25"
+    }
+  ],
+  "sites": []
 }

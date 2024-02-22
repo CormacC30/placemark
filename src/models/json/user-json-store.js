@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { db } from "../store-utils.js";
+import { db } from "./store-utils.js";
 
 export const userJsonStore = {
   async getAllUsers() {

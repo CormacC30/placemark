@@ -25,3 +25,19 @@ export const maggie = {
       password: "secret",
     },
   ];
+
+  export const town = {
+    title: "Bantry"
+  };
+  
+  export const testPlacemarks = [
+    {
+      title: "Graiguenemanagh"
+    },
+    {
+      title: "Kealkil"
+    },
+    {
+      title: "Rosscarbery"
+    }
+  ];
