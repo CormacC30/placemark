@@ -48,6 +48,7 @@ export const siteJsonStore = {
         site.era = updatedSite.era;
         site.latitude = updatedSite.latitude;
         site.longitude = updatedSite.longitude;
+        site.description = updatedSite.description;
         await db.write();
       },
 };

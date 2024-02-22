@@ -6,7 +6,7 @@ import { assertSubset } from "./test-utils.js";
 suite("Site Tests", () => {
 
     setup(async () => {
-        db.init("json");
+        db.init("mongo");
         await db.placemarkStore.deleteAllPlacemarks();
         await db.siteStore.deleteAllSites();
         const testTown = await db.placemarkStore.addPlacemark(town);
@@ -21,7 +21,7 @@ suite("Site Tests", () => {
         const placemarkid = placemarks[0]._id;
         const site = await db.siteStore.addSite(placemarkid, newgrange);
         assert.isNotNull(site._id);
-        assert.equal(site, newgrange);
+        assertSubset(site, newgrange);
     });
 
     test("get a site - success", async() => {

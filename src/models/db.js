@@ -6,6 +6,11 @@ import { userJsonStore } from "./json/user-json-store.js";
 import { placemarkJsonStore } from "./json/placemark-json-store.js";
 import { siteJsonStore } from "./json/site-json-store.js";
 
+import { connectMongo } from "./mongo/connect.js";
+import { userMongoStore } from "./mongo/user-mongo-store.js";
+import { placemarkMongoStore } from "./mongo/placemark-mongo-store.js";
+import { siteMongoStore } from "./mongo/site-mongo-store.js";
+
 export const db = {
   userStore: null,
   placemarkStore: null,
@@ -17,6 +22,12 @@ export const db = {
         this.userStore = userJsonStore;
         this.placemarkStore = placemarkJsonStore;
         this.siteStore = siteJsonStore;
+        break;
+      case "mongo":
+        this.userStore = userMongoStore;
+        this.placemarkStore = placemarkMongoStore;
+        this.siteStore = siteMongoStore;
+        connectMongo();
         break;
       default:
         this.userStore = userMemStore;

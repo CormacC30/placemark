@@ -1,11 +1,14 @@
 import { assert } from "chai";
+import { EventEmitter } from "events";
 import { db } from "../src/models/db.js";
 import { testPlacemarks, town } from "./fixtures.js";
+import { assertSubset } from "./test-utils.js";
 
+EventEmitter.setMaxListeners(25);
 suite("Placemark Model tests", () => {
 
   setup(async () => {
-    db.init("json");
+    db.init("mongo");
     await db.placemarkStore.deleteAllPlacemarks();
     for (let i = 0; i < testPlacemarks.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
@@ -15,7 +18,7 @@ suite("Placemark Model tests", () => {
 
   test("create a placemark", async () => {
     const placemark = await db.placemarkStore.addPlacemark(town);
-    assert.equal(town, placemark);
+    assertSubset(town, placemark);
     assert.isDefined(placemark._id);
   });
 
@@ -30,7 +33,7 @@ suite("Placemark Model tests", () => {
   test("get a placemark - success", async () => {
     const placemark = await db.placemarkStore.addPlacemark(town);
     const returnedPlacemark = await db.placemarkStore.getPlacemarkById(placemark._id);
-    assert.equal(town, placemark);
+    assertSubset(town, placemark);
   });
 
   test("delete One Placemark - success", async () => {
