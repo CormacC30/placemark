@@ -76,4 +76,6 @@ export const maggie = {
       latitude: "50.8",
       longitude: "-6.1"
     },
-  ]
+  ];
+
+  export const serviceUrl = "http://localhost:3000";

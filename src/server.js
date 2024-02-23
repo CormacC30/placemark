@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import Joi from "joi";
 import { handlebarsHelpers } from "./helpers/handlebars-helper.js";
 import { webRoutes } from "./web-routes.js";
+import { apiRoutes } from "./api-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
 
@@ -55,6 +56,7 @@ async function init() {
   server.auth.default("session");
   db.init("mongo");
   server.route(webRoutes);
+  server.route(apiRoutes)
   await server.start();
   console.log("Server running on %s", server.info.uri);
 }

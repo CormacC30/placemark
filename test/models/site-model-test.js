@@ -1,8 +1,8 @@
 import { assert } from "chai";
-import { db } from "../src/models/db.js";
-import { town, testSites, newgrange, testPlacemarks } from "./fixtures.js";
-import { assertSubset } from "./test-utils.js";
-import { analytics } from "../src/utils/analytics.js";
+import { db } from "../../src/models/db.js";
+import { town, testSites, newgrange, testPlacemarks } from "../fixtures.js";
+import { assertSubset } from "../test-utils.js";
+import { analytics } from "../../src/utils/analytics.js";
 
 suite("Site Tests", () => {
 
