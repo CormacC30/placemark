@@ -13,7 +13,6 @@ suite("Site API tests", () => {
         await placemarkService.deleteAllUsers();
         user = await placemarkService.createUser(maggie);
         dunAongus = await placemarkService.createPlacemark(town);
-        // concerto.placemarkid = beethovenSonatas._id;
 
     });
 
