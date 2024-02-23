@@ -48,4 +48,29 @@ export const placemarkService = {
     const res = await axios.delete(`${this.placemarkUrl}/api/placemarks/${id}`);
     return res;
   },
+
+  async getAllSites() {
+    const res = await axios.get(`${this.placemarkUrl}/api/sites`);
+    return res.data;
+  },
+
+  async createSite(id) {
+    const res = await axios.post(`${this.placemarkUrl}/api/placemarks/${id}/sites`);
+    return res.data;
+  },
+
+  async getSite(id) {
+    const res = await axios.get(`${this.placemarkUrl}/api/sites/${id}`);
+    return res.data;
+  },
+
+  async deleteSite(id){
+    const res = await axios.delete(`${this.placemarkUrl}/api/sites/${id}`);
+    return res;
+  },
+
+  async deleteAllSites() {
+    const res = await axios.delete(`${this.placemarkUrl}/api/sites`);
+    return res.data;
+  }
 };
