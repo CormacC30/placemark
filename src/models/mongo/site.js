@@ -11,7 +11,7 @@ const siteSchema = new Schema({
   description: String,
   placemarkid: {
     type: Schema.Types.ObjectId,
-    ref: "Playlist",
+    ref: "Placemark",
   },
 });
 
