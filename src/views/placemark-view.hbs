@@ -9,6 +9,12 @@
         Category: {{placemark.category}}
     </h3>
   </div>
+  {{#if list}}
   {{> list-sites}}
+  {{else}}
+  <div class="box content">
+    <p>You have no historic sites listed yet.. </p>
+  </div>
+  {{/if}}
   {{> add-site}}
 </section>

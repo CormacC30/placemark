@@ -5,10 +5,13 @@ export const placemarkController = {
   index: {
     handler: async function (request, h) {
       const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
-      const placemarkSites = await db.siteStore.getAllSites();
+      const placemarkSites = await db.siteStore.getSitesByPlacemarkId(request.params.id);
+      let list = true;
+      if (placemarkSites.length === 0) list = false;
       const viewData = {
         title: "Placemark",
         placemark: placemark,
+        list: list,
       };
       return h.view("placemark-view", viewData);
     },
