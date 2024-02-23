@@ -47,8 +47,8 @@ export const maggie = {
   ];
 
   export const newgrange = {
-    title: "testio",
-    year: "1200",
+    title: "newgrange",
+    year: "3000",
     era: "BC",
     latitude: "54.2",
     longitude: "4.2" 

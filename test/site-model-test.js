@@ -2,6 +2,7 @@ import { assert } from "chai";
 import { db } from "../src/models/db.js";
 import { town, testSites, newgrange, testPlacemarks } from "./fixtures.js";
 import { assertSubset } from "./test-utils.js";
+import { analytics } from "../src/utils/analytics.js";
 
 suite("Site Tests", () => {
 
@@ -62,5 +63,17 @@ suite("Site Tests", () => {
         await db.siteStore.deleteAllSites();
         returnedSites = await db.siteStore.getAllSites();
         assert.equal(returnedSites.length, 0);
-    })
+    });
+
+    test("site age", async() => {
+        const placemarks = await db.placemarkStore.getAllPlacemarks();
+        const site = await db.siteStore.addSite(placemarks[0]._id, newgrange);
+        assert.equal(site.year, 3000);
+        assert.equal(site.era, "BC");
+        const siteAge = await analytics.getSiteAge(site.year, site.era);
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const age = currentYear + 3000;
+        assert.equal(siteAge, age);
+    });
 });

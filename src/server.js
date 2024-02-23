@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import Cookie from "@hapi/cookie";
 import dotenv from "dotenv";
 import Joi from "joi";
+import { handlebarsHelpers } from "./helpers/handlebars-helper.js";
 import { webRoutes } from "./web-routes.js";
 import { db } from "./models/db.js";
 import { accountsController } from "./controllers/accounts-controller.js";
@@ -18,6 +19,10 @@ if (result.error) {
   console.log(result.error.message);
   process.exit(1);
 }
+
+Object.keys(handlebarsHelpers).forEach(helperName => {
+  Handlebars.registerHelper(helperName, handlebarsHelpers[helperName]);
+});
 
 async function init() {
   const server = Hapi.server({
