@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { db } from "../../src/models/db.js";
-import { town, testSites, newgrange, testPlacemarks } from "../fixtures.js";
+import { town, testSites, newgrange, testPlacemarks, altar } from "../fixtures.js";
 import { assertSubset } from "../test-utils.js";
 import { analytics } from "../../src/utils/analytics.js";
 
@@ -65,7 +65,7 @@ suite("Site Tests", () => {
         assert.equal(returnedSites.length, 0);
     });
 
-    test("site age", async() => {
+    test("site age - BC", async() => {
         const placemarks = await db.placemarkStore.getAllPlacemarks();
         const site = await db.siteStore.addSite(placemarks[0]._id, newgrange);
         assert.equal(site.year, 3000);
@@ -75,5 +75,14 @@ suite("Site Tests", () => {
         const currentYear = currentDate.getFullYear();
         const age = currentYear + 3000;
         assert.equal(siteAge, age);
+    });
+
+    test("site age unknown", async() => {
+        const placemarks = await db.placemarkStore.getAllPlacemarks();
+        const site = await db.siteStore.addSite(placemarks[0]._id, altar);
+        assert.equal(site.year, 2000);
+        assert.equal(site.era, "Unknown");
+        const siteAge = await analytics.getSiteAge(site.year, site.era);
+        assert.equal(siteAge, "Unknown");
     });
 });

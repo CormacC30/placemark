@@ -9,12 +9,20 @@ export const analytics = {
             case "BC":
                 correctYear = year;
                 break;
+            case "Unknown":
+                correctYear = null;
+                break;
             default:
                 correctYear = year;
         };
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
-        const age = correctYear + currentYear;
+        let age = null;
+        if(era === "Unknown"){
+            age = "Unknown";
+        } else {
+            age = correctYear + currentYear;
+        }
         return age;
     },
 

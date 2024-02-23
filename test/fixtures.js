@@ -54,6 +54,14 @@ export const maggie = {
     longitude: "4.2" 
   };
 
+  export const altar = {
+    title: "altar",
+    year: "2000",
+    era: "Unknown",
+    latitude: 50.33,
+    longitude: -7.2,
+  };
+
   export const testSites = [
     {
       title: "testio",
