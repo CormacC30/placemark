@@ -5,14 +5,14 @@ import { maggie, town, testPlacemarks, testSites } from "../fixtures.js";
 
 suite("Site API tests", () => {
     let user = null;
-    let dunAongus = null;
+    let bantry = null;
 
     setup(async () => {
         await placemarkService.deleteAllSites();
         await placemarkService.deleteAllPlacemarks();
         await placemarkService.deleteAllUsers();
         user = await placemarkService.createUser(maggie);
-        dunAongus = await placemarkService.createPlacemark(town);
+        bantry = await placemarkService.createPlacemark(town);
 
     });
 
@@ -21,7 +21,7 @@ suite("Site API tests", () => {
     });
 
     test("create site", async () => {
-        const placemarkid = beethovenSonatas._id;
+        const placemarkid = bantry._id;
         const newSite = await placemarkService.createSite(placemarkid, town);
         assert.isNotNull(newSite);
         assertSubset(town, newSite);
@@ -29,7 +29,7 @@ suite("Site API tests", () => {
 
     test("create multiple sites", async () => {
         for (let i = 0; i < testSites.length; i += 1) {
-            const placemarkid = beethovenSonatas._id;
+            const placemarkid = bantry._id;
             // eslint-disable-next-line no-await-in-loop
             await placemarkService.createSite(placemarkid, testSites[i]);
         }
@@ -41,7 +41,7 @@ suite("Site API tests", () => {
     });
 
     test("Delete Site", async () => {
-        const placemarkId = beethovenSonatas._id;
+        const placemarkId = bantry._id;
         const site = await placemarkService.createSite(placemarkId, town);
         assert.isDefined(site._id);
         const response = await placemarkService.deleteSite(site._id);
@@ -49,7 +49,7 @@ suite("Site API tests", () => {
     });
 
     test("get a site - success", async() => {
-        const placemarkId = dunAongus._id;
+        const placemarkId = bantry._id;
         const newSite = await placemarkService.createSite(placemarkId, town);
         assert.isDefined(newSite._id);
         const returnedSite = await placemarkService.getSite(newSite._id);
