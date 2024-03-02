@@ -7,6 +7,7 @@ import Cookie from "@hapi/cookie";
 import dotenv from "dotenv";
 import Joi from "joi";
 import Inert from "@hapi/inert";
+import HapiSwagger from "hapi-swagger";
 import { handlebarsHelpers } from "./helpers/handlebars-helper.js";
 import { webRoutes } from "./web-routes.js";
 import { apiRoutes } from "./api-routes.js";
@@ -22,7 +23,14 @@ if (result.error) {
   process.exit(1);
 }
 
-Object.keys(handlebarsHelpers).forEach(helperName => {
+const swaggerOptions = {
+  info: {
+    title: "Placemark API",
+    version: "0.1",
+  },
+};
+
+Object.keys(handlebarsHelpers).forEach((helperName) => {
   Handlebars.registerHelper(helperName, handlebarsHelpers[helperName]);
 });
 
@@ -31,9 +39,15 @@ async function init() {
     port: 3000,
     host: "localhost",
   });
-  await server.register(Vision);
   await server.register(Cookie);
-  await server.register(Inert);
+  await server.register([
+    Inert,
+    Vision,
+    {
+      plugin: HapiSwagger,
+      options: swaggerOptions,
+    },
+  ]);
   server.validator(Joi);
   server.views({
     engines: {
@@ -58,7 +72,7 @@ async function init() {
   server.auth.default("session");
   db.init("mongo");
   server.route(webRoutes);
-  server.route(apiRoutes)
+  server.route(apiRoutes);
   await server.start();
   console.log("Server running on %s", server.info.uri);
 }
