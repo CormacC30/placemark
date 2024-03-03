@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { SiteArray } from "../models/joi-schemas.js";
+import { validationError } from "./logger.js";
 
 export const siteApi = {
     find: {
@@ -12,6 +14,10 @@ export const siteApi = {
                 return Boom.serverUnavailable("Database error");
             }
         },
+        tags: ["api"],
+        description: "Get all siteAPI",
+        notes: "Returns details of all siteAPI",
+        response: { schema: SiteArray, failAction: validationError },
       },
     
       findOne: {
