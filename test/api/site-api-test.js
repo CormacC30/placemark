@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { assertSubset } from "../test-utils.js";
 import { placemarkService } from "./placemark-service.js";
-import { maggie, town, testPlacemarks, testSites } from "../fixtures.js";
+import { maggie, town, testPlacemarks, testSites, newgrange } from "../fixtures.js";
 
 suite("Site API tests", () => {
     let user = null;
@@ -12,6 +12,7 @@ suite("Site API tests", () => {
         await placemarkService.deleteAllPlacemarks();
         await placemarkService.deleteAllUsers();
         user = await placemarkService.createUser(maggie);
+        town.userid = user._id;
         bantry = await placemarkService.createPlacemark(town);
 
     });
@@ -22,7 +23,7 @@ suite("Site API tests", () => {
 
     test("create site", async () => {
         const placemarkid = bantry._id;
-        const newSite = await placemarkService.createSite(placemarkid, town);
+        const newSite = await placemarkService.createSite(placemarkid, newgrange);
         assert.isNotNull(newSite);
         assertSubset(town, newSite);
     });
@@ -42,7 +43,7 @@ suite("Site API tests", () => {
 
     test("Delete Site", async () => {
         const placemarkId = bantry._id;
-        const site = await placemarkService.createSite(placemarkId, town);
+        const site = await placemarkService.createSite(placemarkId, newgrange);
         assert.isDefined(site._id);
         const response = await placemarkService.deleteSite(site._id);
         assert.equal(response.status, 204);
@@ -50,7 +51,7 @@ suite("Site API tests", () => {
 
     test("get a site - success", async() => {
         const placemarkId = bantry._id;
-        const newSite = await placemarkService.createSite(placemarkId, town);
+        const newSite = await placemarkService.createSite(placemarkId, newgrange);
         assert.isDefined(newSite._id);
         const returnedSite = await placemarkService.getSite(newSite._id);
         assertSubset(newSite, returnedSite);

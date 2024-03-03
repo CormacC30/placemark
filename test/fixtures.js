@@ -56,26 +56,26 @@ export const maggie = {
 
   export const testSites = [
     {
-      title: "testio",
-      year: "1200",
+      title: "dun aongus",
+      year: 1200,
       era: "BC",
-      latitude: "54.2",
-      longitude: "4.2"
+      latitude: 54.2,
+      longitude: 4.2
     },
     {
-      title: "testino",
-      year: "1200",
+      title: "Jerpoint Abbey",
+      year: 900,
       era: "AD",
-      latitude: "50",
-      longitude: "-6"
+      latitude: 50,
+      longitude: -6
     },
     {
-      title: "testaroo",
-      year: "900",
+      title: "Kells",
+      year: 1000,
       era: "AD",
-      latitude: "50.8",
-      longitude: "-6.1"
-    },
+      latitude: 50.8,
+      longitude: -6.1
+    }
   ];
 
   export const serviceUrl = "http://localhost:3000";

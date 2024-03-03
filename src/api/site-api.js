@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { SiteArray } from "../models/joi-schemas.js";
+import { SiteArray, SiteSpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 
 export const siteApi = {
@@ -15,9 +15,9 @@ export const siteApi = {
             }
         },
         tags: ["api"],
+        response: { schema: SiteArray, failAction: validationError },
         description: "Get all siteAPI",
         notes: "Returns details of all siteAPI",
-        response: { schema: SiteArray, failAction: validationError },
       },
     
       findOne: {

@@ -10,7 +10,7 @@ export const UserSpec = Joi.object()
     password: Joi.string()
       .pattern(/^[a-zA-Z0-9]{3,30}$/) // pattern adapted from joi docs
       .example("secret")
-      .required(), 
+      .required(),
     _id: IdSpec,
     __v: Joi.number(),
   })
@@ -26,20 +26,23 @@ export const UserCredentialsSpec = {
 };
 
 export const SiteSpec = Joi.object()
-  .keys({
-    title: Joi.string().example("Newgrange").required(),
-    year: Joi.number().integer().example("3000").required(),
-    era: Joi.string().example("BC").required(),
-    latitude: Joi.number().optional().precision(6).example("52.123"), // left this as optional
-    longitude: Joi.number().optional().precision(6).example("4.365"), // again left as optional may change later
-    description: Joi.string().optional().example("Ancient burial site"),
-    _id: IdSpec,
-    placemarkid: IdSpec,
-    __v: Joi.number(),
-  })
-  .label("SiteDetails");
+.keys({
+  title: Joi.string().required().example("Newgrange"),
+  year: Joi.number().integer().required().example(3000),
+  era: Joi.string().required().example("BC"),
+  latitude: Joi.number().precision(6).allow("").optional().example(52.123), // left this as optional
+  longitude: Joi.number().precision(6).allow("").optional().example(4.365), // again left as optional may change later
+  description: Joi.string().optional().allow("").example("Ancient burial site"),
+  placemarkid: IdSpec,
+})
+.label("Site");
 
-  export const SiteArray = Joi.array().items(SiteSpec).label("SiteArray");
+export const SiteSpecPlus = SiteSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("SitePlus");
+
+export const SiteArray = Joi.array().items(SiteSpecPlus).label("SiteArray");
 
 export const PlacemarkSpec = {
   name: Joi.string().required(),
