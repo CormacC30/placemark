@@ -26,7 +26,7 @@ export const placemarkController = {
       },
     },
     handler: async function (request, h) {
-      const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
+      // const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
       const newSite = {
         title: request.payload.title,
         year: Number(request.payload.year),
@@ -35,8 +35,8 @@ export const placemarkController = {
         longitude: Number(request.payload.longitude),
         description: request.payload.description,
       };
-      await db.siteStore.addSite(placemark._id, newSite);
-      return h.redirect(`/placemark/${placemark._id}`);
+      await db.siteStore.addSite(request.params.id, newSite);
+      return h.redirect(`/placemark/${request.params.id}`);
     },
   },
 

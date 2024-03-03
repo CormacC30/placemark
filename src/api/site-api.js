@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { SiteArray, SiteSpec } from "../models/joi-schemas.js";
+import { SiteArray, SiteSpec, SiteSpecPlus, IdSpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 
 export const siteApi = {
@@ -33,14 +33,19 @@ export const siteApi = {
                 return Boom.serverUnavailable("No Site with this id");
             }
         },
+        tags: ["api"],
+        description: "Find a site",
+        notes: "Returns a site",
+        validate: { params: { id: IdSpec }, failAction: validationError },
+        response: { schema: SiteSpecPlus, failAction: validationError },
       },
     
       create: {
         auth: false,
         handler: async function (request, h) {
           try {
-            const site = request.payload;
-            const newSite = await db.siteStore.addSite(request.params.id, site);
+            // const site = request.payload;
+            const newSite = await db.siteStore.addSite(request.params.id, request.payload);
             if (newSite) {
               return h.response(newSite).code(201);
             }
@@ -49,6 +54,11 @@ export const siteApi = {
             return Boom.serverUnavailable("Database error");
           }
         },
+        tags: ["api"],
+        description: "Create a site",
+        notes: "Returns the newly created site",
+        validate: { payload: SiteSpec },
+        response: { schema: SiteSpecPlus, failAction: validationError },
       },
     
       deleteOne: {
@@ -65,6 +75,9 @@ export const siteApi = {
                 return Boom.serverUnavailable("No site with this id");
             }
         },
+        tags: ["api"],
+        description: "Delete a site",
+        validate: { params: { id: IdSpec }, failAction: validationError },
       },
     
       deleteAll: {

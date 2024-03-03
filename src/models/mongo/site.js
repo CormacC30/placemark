@@ -10,7 +10,7 @@ const siteSchema = new Schema({
   longitude: Number,
   description: String,
   placemarkid: {
-    type: Schema.Types.ObjectId,
+    type: String, // Schema.Types.ObjectId,
     ref: "Placemark",
   },
 });
