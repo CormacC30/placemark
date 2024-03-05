@@ -29,7 +29,7 @@ export const SiteSpec = Joi.object()
   latitude: Joi.number().precision(6).allow("").optional().example(52.123), // left this as optional
   longitude: Joi.number().precision(6).allow("").optional().example(4.365), // again left as optional may change later
   description: Joi.string().optional().allow("").example("Ancient burial site"),
-  placemarkid: Joi.string().required().example("string"), // IdSpec, //  
+  placemarkid: IdSpec, // Joi.string().required().example("string"), //
 })
 .label("Site");
 
@@ -40,7 +40,18 @@ export const SiteSpecPlus = SiteSpec.keys({
 
 export const SiteArray = Joi.array().items(SiteSpecPlus).label("SiteArray");
 
-export const PlacemarkSpec = {
-  name: Joi.string().required(),
-  category: Joi.string().required(),
-};
+export const PlacemarkSpec = Joi.object()
+  .keys({
+    name: Joi.string().required().example("Bantry"),
+    category: Joi.string().required().example("Stone Circle"),
+    userid: IdSpec,
+    sites: SiteArray,
+  })
+  .label("Playlist");
+
+export const PlacemarkSpecPlus = PlacemarkSpec.keys({
+  _id: IdSpec,
+  __v: Joi.number(),
+}).label("PlacemarkPlus");
+
+export const PlacemarkArraySpec = Joi.array().items(PlacemarkSpecPlus).label("PlacemarkArray");

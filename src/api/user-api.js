@@ -20,7 +20,7 @@ export const userApi = {
     tags: ["api"],
     description: "Create a User",
     notes: "Returns the newly created user",
-    validate: { payload: UserSpec, failAction: validationError },
+    validate: { payload: UserSpecPlus, failAction: validationError },
     response: { schema: UserSpecPlus, failAction: validationError },
   },
 

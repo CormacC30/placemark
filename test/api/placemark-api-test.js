@@ -2,21 +2,25 @@ import { EventEmitter } from "events";
 import { assert } from "chai";
 import { placemarkService } from "./placemark-service.js";
 import { assertSubset } from "../test-utils.js";
-import { testPlacemarks, town, maggie } from "../fixtures.js";
+import { testPlacemarks, town, maggie, newgrange } from "../fixtures.js";
 
 EventEmitter.setMaxListeners(25);
 
 suite("Placemark API tests", () => {
     
     let user = null;
+    let sites = [];
     
     setup(async () => {
         await placemarkService.deleteAllPlacemarks();
         await placemarkService.deleteAllUsers();
         user = await placemarkService.createUser(maggie);
         town.userid = user._id;
+        town.sites = sites;
     });
     teardown(async () => {
+        await placemarkService.deleteAllPlacemarks();
+        await placemarkService.deleteAllUsers();
     });
 
     test("create a placemark", async () => {

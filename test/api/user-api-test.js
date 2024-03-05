@@ -12,6 +12,7 @@ suite("User API tests", () => {
     }
   });
   teardown(async () => {
+    await placemarkService.deleteAllUsers();
   });
 
   test("create a user", async () => {

@@ -1,4 +1,6 @@
 import Boom from "@hapi/boom";
+import { validationError } from "./logger.js";
+import { IdSpec, PlacemarkArraySpec, PlacemarkSpec, PlacemarkSpecPlus } from "../models/joi-schemas.js";
 import { db } from "../models/db.js";
 
 export const placemarkApi = {
@@ -12,6 +14,10 @@ export const placemarkApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        response: { schema: PlacemarkArraySpec, failAction: validationError },
+        description: "Get all placemarks",
+        notes: "Returns all placemarks"
     },
 
     findOne: {
@@ -27,6 +33,11 @@ export const placemarkApi = {
             return Boom.serverUnavailable("No Placemark with this id");
           }
         },
+        tags: ["api"],
+        description: "Find a placemark",
+        notes: "Returns a placemark",
+        validate: { params: { id: IdSpec }, failAction: validationError },
+        response: { schema: PlacemarkSpecPlus, failAction: validationError },
       },
 
     create: {
@@ -43,6 +54,11 @@ export const placemarkApi = {
                 return Boom.serverUnavailable("Database error");
             }
         },
+        tags: ["api"],
+        description: "Create a placemark",
+        notes: "returns the newly created placemark",
+        validate: { payload: PlacemarkSpec, failAction: validationError },
+        response: { schema: PlacemarkSpecPlus, failAction: validationError }
     },
 
     deleteAll: {
@@ -55,6 +71,8 @@ export const placemarkApi = {
                 return Boom.serverUnavailable("Database Error");
             }
         },
+        tags: ["api"],
+        description: "Delete all placemarksAPI",
     },
 
     deleteOne: {
@@ -71,7 +89,8 @@ export const placemarkApi = {
             return Boom.serverUnavailable("No Placemark with this id");
           }
         },
+        tags: ["api"],
+        description: "Delete a placemark",
+        validate: { params: { id: IdSpec }, failAction: validationError }
       },
-
-
 }
