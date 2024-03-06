@@ -1,6 +1,11 @@
 import Joi from "joi";
 
 export const IdSpec = Joi.alternatives().try(Joi.string(), Joi.object()).description("a valid ID");
+export const NewIdSpec = Joi.object({
+  id: Joi.string().hex().length(24)
+});
+
+// user schema
 
 export const UserCredentialsSpec = Joi.object()
   .keys({
@@ -21,6 +26,8 @@ export const UserSpecPlus = UserSpec.keys({
 
 export const UserArray = Joi.array().items(UserSpecPlus).label("UserArray");
 
+// site schema
+
 export const SiteSpec = Joi.object()
 .keys({
   title: Joi.string().required().example("Newgrange"),
@@ -40,12 +47,14 @@ export const SiteSpecPlus = SiteSpec.keys({
 
 export const SiteArray = Joi.array().items(SiteSpecPlus).label("SiteArray");
 
+// placemark schema
+
 export const PlacemarkSpec = Joi.object()
   .keys({
     name: Joi.string().required().example("Bantry"),
     category: Joi.string().required().example("Stone Circle"),
-    userid: IdSpec,
     sites: SiteArray,
+    userid: IdSpec, // Joi.string().required().example("string"), //
   })
   .label("Playlist");
 
