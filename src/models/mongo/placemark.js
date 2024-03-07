@@ -6,7 +6,7 @@ const placemarkSchema = new Schema({
   name: String,
   category: String,
   userid: {
-    type: String,
+    type: String, // Schema.Types.ObjectId, 
     ref: "User",
   },
 });

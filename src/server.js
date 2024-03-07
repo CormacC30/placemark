@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 import Joi from "joi";
 import Inert from "@hapi/inert";
 import HapiSwagger from "hapi-swagger";
+import jwt from "hapi-auth-jwt2";
+import { validate } from "./api/jwt-utils.js";
 import { handlebarsHelpers } from "./helpers/handlebars-helper.js";
 import { webRoutes } from "./web-routes.js";
 import { apiRoutes } from "./api-routes.js";
@@ -40,6 +42,7 @@ async function init() {
     host: "localhost",
   });
   await server.register(Cookie);
+  await server.register(jwt);
   await server.register([
     Inert,
     Vision,
@@ -68,6 +71,11 @@ async function init() {
     },
     redirectTo: "/",
     validate: accountsController.validate,
+  });
+  server.auth.strategy("jwt", "jwt", {
+    key: process.env.COOKIE_PASSWORD,
+    validate: validate,
+    verifyOptions: { algorithms: ["HS256"] }
   });
   server.auth.default("session");
   db.init("mongo");

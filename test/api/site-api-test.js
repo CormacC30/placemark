@@ -8,10 +8,14 @@ suite("Site API tests", () => {
     let bantry = null;
 
     setup(async () => {
-        await placemarkService.deleteAllSites();
+        placemarkService.clearAuth();
+        user =  await placemarkService.createUser(maggie);
+        await placemarkService.authenticate(maggie);
         await placemarkService.deleteAllPlacemarks();
+        await placemarkService.deleteAllSites();
         await placemarkService.deleteAllUsers();
         user = await placemarkService.createUser(maggie);
+        await placemarkService.authenticate(maggie);
         town.userid = user._id;
         bantry = await placemarkService.createPlacemark(town);
 

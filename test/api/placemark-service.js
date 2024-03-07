@@ -72,5 +72,17 @@ export const placemarkService = {
   async deleteAllSites() {
     const res = await axios.delete(`${this.placemarkUrl}/api/sites`);
     return res.data;
+  },
+
+  async authenticate(user) {
+    const response = await axios.post(`${this.placemarkUrl}/api/users/authenticate`, user);
+    // eslint-disable-next-line
+    axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
+    return response.data;
+  },
+
+  async clearAuth() {
+    // eslint-disable-next-line
+    axios.defaults.headers.common["Authorization"] = "";
   }
 };

@@ -12,9 +12,13 @@ suite("Placemark API tests", () => {
     let sites = [];
     
     setup(async () => {
+        placemarkService.clearAuth();
+        user = await placemarkService.createUser(maggie);
+        await placemarkService.authenticate(maggie);
         await placemarkService.deleteAllPlacemarks();
         await placemarkService.deleteAllUsers();
         user = await placemarkService.createUser(maggie);
+        await placemarkService.authenticate(maggie);
         town.userid = user._id;
         town.sites = sites;
     });
