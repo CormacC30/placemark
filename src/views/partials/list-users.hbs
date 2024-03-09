@@ -1,0 +1,31 @@
+<div class="box box-link-hover-shadow">
+    <h2 class="title">
+        All Users:
+    </h2>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>email</th>
+            <th>password</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>
+                {{firstName}}
+            </td>
+            <td>
+                {{lastName}}
+            </td>
+            <td>
+                {{email}}
+            </td>
+            <td>
+                {{password}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</div>

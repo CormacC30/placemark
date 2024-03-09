@@ -21,6 +21,36 @@ export const webRoutes = [
   { method: "POST", path: "/placemark/{id}/addsite", config: placemarkController.addSite },
   { method: "GET", path: "/placemark/{id}/deletesite/{siteid}", config: placemarkController.deleteSite },
 
-  { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } }
+  { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
+// admin route
+ // { method: "GET", path: "/admin", config: accountsController.admin },
+  
+  {
+    method: "GET",
+    path: "/admin",
+    config: accountsController.adminDashboard
+  },
+  /*
+  {
+    method: "GET",
+    path: "/admin",
+    handler: async (request, h) => {
+      return h.view("admin"); // Render your AdminJS UI view
+    },
+    options: {
+      auth: "session", // Protect the route with the session authentication strategy
+    },
+  },
 
+  {
+    method: "DELETE",
+    path: "/admin/api/resources/{resourceId}",
+    handler: async (request, h) => {
+      // Handle AdminJS API requests
+    },
+    options: {
+      auth: "session", // Protect the route with the session authentication strategy
+    },
+  },
+*/
 ];

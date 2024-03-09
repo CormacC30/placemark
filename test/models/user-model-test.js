@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { assertSubset } from "../test-utils.js"
 import { db } from "../../src/models/db.js";
-import { maggie, testUsers } from "../fixtures.js";
+import { maggie, testUsers, admin } from "../fixtures.js";
 
 suite("User store tests", () => {
     
@@ -57,6 +57,14 @@ setup(async () => {
     await db.userStore.deleteUserById("bad-id");
     const allUsers = await db.userStore.getAllUsers();
     assert.equal(testUsers.length, allUsers.length);
+  });
+
+  test("user is admin", async () => {
+    const adminUser = await db.userStore.addUser(admin);
+    assertSubset(admin, adminUser);
+    console.log(adminUser);
+    assert.isDefined(adminUser.isAdmin);
+    assert.isTrue(adminUser.isAdmin);
   });
 
 });

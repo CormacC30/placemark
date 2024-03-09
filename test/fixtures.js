@@ -10,6 +10,13 @@ export const maggie = {
     password: "secret"
   };
 
+  export const admin = {
+    firstName: "Admin",
+    lastName: "Admin",
+    email: "admin@placemark.com",
+    password: "adminpassword",
+  }
+
   export const testUsers = [
     {
       firstName: "Homer",

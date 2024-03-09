@@ -15,7 +15,15 @@ export const userMongoStore = {
   },
 
   async addUser(user) {
-    const newUser = new User(user);
+    const isAdmin = user.email === process.env.ADMIN_EMAIL;
+
+    console.log(`Adding user with email: ${user.email}`);
+    console.log(`Is admin? ${isAdmin}`);
+
+    const newUser = new User({
+      ...user,
+      isAdmin: isAdmin
+    });
     const userObj = await newUser.save();
     const u = await this.getUserById(userObj._id);
     return u;

@@ -1,4 +1,5 @@
 import Hapi from "@hapi/hapi";
+// import { AdminJs } from "@adminjs/hapi";
 import Vision from "@hapi/vision";
 import Handlebars from "handlebars";
 import path from "path";
@@ -18,7 +19,11 @@ import { accountsController } from "./controllers/accounts-controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
+/*
+const adminJs = new AdminJs({
+ // add adminjS options
+});
+*/
 const result = dotenv.config();
 if (result.error) {
   console.log(result.error.message);
@@ -51,6 +56,20 @@ async function init() {
   });
   await server.register(Cookie);
   await server.register(jwt);
+ /* await server.register({
+    plugin: AdminJs,
+    options: {
+      adminJs,
+      prefix: "/admin",
+      auth: {
+        strategy: "session",
+      },
+      session: {
+        // configure session options
+      }
+    }
+  })]
+  */
   await server.register([
     Inert,
     Vision,
