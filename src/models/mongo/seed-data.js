@@ -23,7 +23,7 @@ export const seedData = {
     placemarks: {
       _model: "Placemark",
       schull: {
-        name: "schull",
+        name: "Schull",
         category: "Bronze Age",
         userid: "->users.homer"
       },
@@ -36,6 +36,7 @@ export const seedData = {
         era: "BC",
         latitude: 51.513756,
         longitude: -9.644037,
+        description: "Altar Wedge Tomb is a wedge-shaped gallery grave and national monument located outside the village of Schull, in County Cork, Ireland.",
         placemarkid: "->placemarks.schull"
       }
     }
