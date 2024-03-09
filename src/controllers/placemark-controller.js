@@ -63,7 +63,34 @@ export const placemarkController = {
         return h.redirect(`/placemark/${placemark._id}`);
       } catch (err) {
         console.log(err);
-        return h.redirect(`/placemark/${this.placemark._id}`);
+        return h.redirect(`/placemark/${placemark._id}`);
+      }
+    },
+    payload: {
+      multipart: true,
+      output: "data",
+      maxBytes: 209715200,
+      parse: true,
+    },
+  },
+  uploadSiteImage: {
+    handler: async function (request, h) {
+      try {
+
+        const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
+        const site = await db.siteStore.getSiteById(request.payload.siteId);
+        const file = request.payload.imagefile;
+        if (Object.keys(file).length > 0) {
+          // If a file is uploaded
+          const url = await imageStore.uploadImage(file); // Upload the image and get the URL
+          site.img = url; // Update the image URL for the site
+          await db.siteStore.updateSite(site); // Update the site in the database
+        }
+        return h.redirect(`/placemark/${placemark._id}`);
+      } catch (err) {
+        console.log(err);
+        const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
+        return h.redirect(`/placemark/${placemark._id}`);
       }
     },
     payload: {
