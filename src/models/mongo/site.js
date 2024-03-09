@@ -9,6 +9,7 @@ const siteSchema = new Schema({
   latitude: Number,
   longitude: Number,
   description: String,
+  img: String,
   placemarkid: {
     type: Schema.Types.ObjectId, // String, // 
     ref: "Placemark",

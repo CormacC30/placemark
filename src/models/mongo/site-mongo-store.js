@@ -38,14 +38,15 @@ export const siteMongoStore = {
     await Site.deleteMany({});
   },
 
-  async updateSite(site, updatedSite) {
-    const siteDoc = await Site.findOne({ _id: site._id });
+  async updateSite(updatedSite) {
+    const site = await Site.findOne({ _id: updatedSite._id });
     site.title = updatedSite.title;
     site.year = updatedSite.year;
     site.era = updatedSite.era;
     site.latitude = updatedSite.latitude;
     site.longitude = updatedSite.longitude;
     site.description = updatedSite.description;
-    await siteDoc.save();
+    site.img = updatedSite.img;
+    await site.save();
   },
 };
