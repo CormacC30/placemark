@@ -21,6 +21,7 @@ setup(async () => {
 
   test("delete all userApi", async () => {
     let returnedUsers = await db.userStore.getAllUsers();
+    console.log(returnedUsers);
     assert.equal(returnedUsers.length, 3);
     await db.userStore.deleteAll();
     returnedUsers = await db.userStore.getAllUsers();
