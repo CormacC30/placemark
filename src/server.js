@@ -27,7 +27,7 @@ if (result.error) {
 
 const swaggerOptions = {
   info: {
-    title: "Placemark API",
+    title: "Tombster API",
     version: "0.1",
   },
   securityDefinitions: {
