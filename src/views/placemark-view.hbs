@@ -1,6 +1,7 @@
 {{> menu active="dashboard"}}
 
-<section class="section">
+<section class="section columns is-vcentered">
+  <div class="column has-text-centered">
   <div class="title">
     {{placemark.name}}
   </div>
@@ -17,4 +18,8 @@
   </div>
   {{/if}}
   {{> add-site}}
+  </div>
+<div class="column">
+  {{> placemark-image}}
+</div>
 </section>
