@@ -20,7 +20,7 @@ TDD methodologies enabled by mocha and chai testing libraries.
 Users can sign up, for an account, log in and create placemarks. Each placemark can represent a locality, a townland, hillside or whatever your area of interest. 
 
 # Placemark Categories
-These are 
+Categorize by age (i.e. Bronze Age, Iron Age, etc.) or choose to define new category.
 
 # Historical Sites
 
@@ -30,3 +30,4 @@ Images can be uploaded to placmemarks and each individual site.
 
 # Future releases
 Future development aims to enable mapping of sites within a placemark, and sharing of sites between users. Future release also will feature an admin dashboard.
+Further enhancements to the categories to give predefined lists of categories as well as defining individual categories.
