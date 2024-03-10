@@ -1,7 +1,8 @@
 # Tombster
 Tombster App: Places of interest.
 
-URL: https://future-acoustic-raincoat.glitch.me/
+Glitch URL: https://future-acoustic-raincoat.glitch.me/
+Render URL: https://placemark-r77h.onrender.com
 
 <img src="public/images/newgrange.jpg">
 
@@ -17,6 +18,7 @@ The app uses MongoDB / cloud atlas for data storage.
 API documented using swagger, and secured using JWT.
 Images hosting served by Cloudinary.
 Deployed using Glitch (https://future-acoustic-raincoat.glitch.me/).
+Deployed using Render (https://placemark-r77h.onrender.com).
 
 TDD methodologies enabled by mocha and chai testing libraries.
 
