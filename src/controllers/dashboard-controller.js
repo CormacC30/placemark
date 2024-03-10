@@ -5,12 +5,18 @@ export const dashboardController = {
     index: {
       handler: async function (request, h) {
         const loggedInUser = request.auth.credentials;
+        let noPlacemarks = true;
         const placemarks = await db.placemarkStore.getUserPlacemarks(loggedInUser._id);
+        if (placemarks.length > 0){
+          noPlacemarks = false;
+        }
         const viewData = {
           title: "Placemark Dashboard",
           user: loggedInUser,
           placemarks: placemarks,
+          noPlacemarks: noPlacemarks
         }
+        console.log(noPlacemarks);
         return h.view("dashboard-view", viewData);
       },
     },
