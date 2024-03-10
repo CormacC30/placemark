@@ -1,7 +1,7 @@
 # Tombster
 Tombster App: Places of interest.
 
-[<img src="public/images/newgrange.jpg">]
+<img src="public/images/newgrange.jpg">
 
 # Overview
 In Ireland, we are blessed with an abundance of historical monuments. From dolmens, standing stones, early bronze age tombs to iron age forts to early christian round towers and high crosses.
