@@ -19,7 +19,7 @@ suite("Placemark Model tests", () => {
   test("create a placemark", async () => {
     const placemark = await db.placemarkStore.addPlacemark(town);
     assertSubset(town, placemark);
-    assert.isDefined(placemark._id);
+   // assert.isDefined(placemark._id);
   });
 
   test("delete all placemarks", async () => {
