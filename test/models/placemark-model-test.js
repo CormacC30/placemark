@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import { EventEmitter } from "events";
 import { db } from "../../src/models/db.js";
-import { testPlacemarks, town } from "../fixtures.js";
+import { testPlacemarks, town, maggie } from "../fixtures.js";
 import { assertSubset } from "../test-utils.js";
 
 EventEmitter.setMaxListeners(25);
@@ -16,14 +16,19 @@ suite("Placemark Model tests", () => {
     }
   });
 
+  teardown(async () => {
+    await db.placemarkStore.deleteAllPlacemarks();
+  })
+
   test("create a placemark", async () => {
     const placemark = await db.placemarkStore.addPlacemark(town);
     assertSubset(town, placemark);
-   // assert.isDefined(placemark._id);
+    assert.isDefined(placemark._id);
   });
 
   test("delete all placemarks", async () => {
     let returnedPlacemarks = await db.placemarkStore.getAllPlacemarks();
+    console.log("all plaecmarks:", returnedPlacemarks);
     assert.equal(returnedPlacemarks.length, 3);
     await db.placemarkStore.deleteAllPlacemarks();
     returnedPlacemarks = await db.placemarkStore.getAllPlacemarks();
@@ -33,7 +38,7 @@ suite("Placemark Model tests", () => {
   test("get a placemark - success", async () => {
     const placemark = await db.placemarkStore.addPlacemark(town);
     const returnedPlacemark = await db.placemarkStore.getPlacemarkById(placemark._id);
-    assertSubset(town, placemark);
+    assertSubset(returnedPlacemark, placemark);
   });
 
   test("delete One Placemark - success", async () => {
@@ -49,6 +54,12 @@ suite("Placemark Model tests", () => {
     assert.isNull(await db.placemarkStore.getPlacemarkById(""));
     assert.isNull(await db.placemarkStore.getPlacemarkById());
   });
+
+  test("get placemarks by user id - success", async () => {
+    const user = db.userStore.addUser(maggie);
+    const userPlacmarks = db.placemarkStore.addPlacemark(town);
+    await db.placemarkStore.getUserPlacemarks(user._id);
+  })
 
   test("delete One Placemark - fail", async () => {
     await db.placemarkStore.deletePlacemarkById("bad-id");

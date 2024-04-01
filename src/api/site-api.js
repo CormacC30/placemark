@@ -90,5 +90,7 @@ export const siteApi = {
             return Boom.serverUnavailable("Database Error");
           }
         },
+        tags: ["api"],
+        description: "Delete all siteAPI"
       },
 };

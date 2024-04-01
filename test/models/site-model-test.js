@@ -67,8 +67,8 @@ suite("Site Tests", () => {
     });
 
     test("site age", async() => {
-        const placemarks = await db.placemarkStore.getAllPlacemarks();
-        const site = await db.siteStore.addSite(placemarks[0]._id, newgrange);
+        const townList = await db.placemarkStore.addPlacemark(town);
+        const site = await db.siteStore.addSite(townList._id, newgrange);
         assert.equal(site.year, 3000);
         assert.equal(site.era, "BC");
         const siteAge = await analytics.getSiteAge(site.year, site.era);
