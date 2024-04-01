@@ -35,6 +35,11 @@ export const maggie = {
     name: "Bantry",
     category: "test"
   };
+
+  export const newTown = {
+    name: "Kilcrohane",
+    category: "newTest"
+  }
   
   export const testPlacemarks = [
     {
@@ -55,8 +60,8 @@ export const maggie = {
     title: "newgrange",
     year: "3000",
     era: "BC",
-    latitude: "54.2",
-    longitude: "4.2" 
+    latitude: 54.2,
+    longitude: 4.2 
   };
 
   export const testSites = [
