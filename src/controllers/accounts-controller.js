@@ -2,18 +2,6 @@ import { db } from "../models/db.js";
 import { UserSpec, UserCredentialsSpec } from "../models/joi-schemas.js";
 export const accountsController = {
     index: {
-<<<<<<< Updated upstream
-      auth: false,
-      handler: function (request, h) {
-        return h.view("main", { title: "Welcome to Placemark" });
-      },
-    },
-    showSignup: {
-      auth: false,
-      handler: function (request, h) {
-        return h.view("signup-view", { title: "Sign up for Placemark" });
-      },
-=======
         auth: false,
         handler: function (request, h) {
             return h.view("main", { title: "Welcome to Tombster" });
@@ -24,7 +12,6 @@ export const accountsController = {
         handler: function (request, h) {
             return h.view("signup-view", { title: "Sign up for Tombster" });
         },
->>>>>>> Stashed changes
     },
     signup: {
         auth: false,
@@ -42,17 +29,10 @@ export const accountsController = {
         },
     },
     showLogin: {
-<<<<<<< Updated upstream
-      auth: false,
-      handler: function (request, h) {
-        return h.view("login-view", { title: "Login to Placemark" });
-      },
-=======
         auth: false,
         handler: function (request, h) {
             return h.view("login-view", { title: "Login to Tombster" });
         },
->>>>>>> Stashed changes
     },
     login: {
         validate: {
