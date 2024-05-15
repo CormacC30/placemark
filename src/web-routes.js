@@ -16,7 +16,6 @@ export const webRoutes = [
     { method: "GET", path: "/placemark/{id}", config: placemarkController.index },
     { method: "POST", path: "/placemark/{id}/addsite", config: placemarkController.addSite },
     { method: "GET", path: "/placemark/{id}/deletesite/{siteid}", config: placemarkController.deleteSite },
-    { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
     { method: "POST", path: "/placemark/{id}/uploadimage", config: placemarkController.uploadImage },
     { method: "POST", path: "/placemark/{id}/site/{siteid}/uploadimage", config: placemarkController.uploadSiteImage },
     {

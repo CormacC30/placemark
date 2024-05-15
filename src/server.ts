@@ -47,7 +47,8 @@ Object.keys(handlebarsHelpers).forEach((helperName) => {
 async function init() {
   const server = Hapi.server({
     port: process.env.PORT || 3000,
-    host: "localhost" // "0.0.0.0",
+    host: "localhost", // "0.0.0.0",
+    routes: { cors: true }
   });
   await server.register(Cookie);
   await server.register(jwt);
@@ -88,7 +89,6 @@ async function init() {
   server.auth.default("session");
   db.init("mongo");
   server.route(webRoutes);
-  server.register(jwt);
   server.route(apiRoutes);
   await server.start();
   console.log("Server running on %s", server.info.uri);

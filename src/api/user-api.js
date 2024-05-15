@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { UserSpec, UserSpecPlus, UserArray, IdSpec, JwtAuth, UserCredentialsSpec } from "../models/joi-schemas.js";
+import { UserSpec, UserSpecPlus, UserArray, IdSpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
 export const userApi = {
@@ -8,9 +8,12 @@ export const userApi = {
         auth: false,
         handler: async function (request, h) {
             try {
-                const user = await db.userStore.addUser(request.payload);
+                console.log("HERE");
+                const userPayload = request.payload;
+                console.log(userPayload);
+                const user = await db.userStore.addUser(userPayload);
                 if (user) {
-                    return h.response(user).code(201);
+                    return h.response({ success: true }).code(201);
                 }
                 return Boom.badImplementation("error creating user");
             }
@@ -31,7 +34,7 @@ export const userApi = {
         handler: async function (request, h) {
             try {
                 const users = await db.userStore.getAllUsers();
-                return users;
+                return h.response(users).code(200);
             }
             catch (err) {
                 return Boom.serverUnavailable("Database Error");
@@ -49,13 +52,13 @@ export const userApi = {
         handler: async function (request, h) {
             try {
                 const user = await db.userStore.getUserById(request.params.id);
-                if (!user) {
+                if (user === null) {
                     return Boom.notFound("No User with this id");
                 }
-                return user;
+                return h.response(user).code(200);
             }
             catch (err) {
-                return Boom.serverUnavailable("No User with this id");
+                return Boom.serverUnavailable("Database Error");
             }
         },
         tags: ["api"],
@@ -84,16 +87,21 @@ export const userApi = {
     authenticate: {
         auth: false,
         handler: async function (request, h) {
+            const payload = request.payload;
             try {
-                const user = await db.userStore.getUserByEmail(request.payload.email);
-                if (!user) {
+                const user = await db.userStore.getUserByEmail(payload.email);
+                if (user === null) {
                     return Boom.unauthorized("User not found");
                 }
-                if (user.password !== request.payload.password) {
+                const passwordsMatch = payload.password === user.password;
+                if (!passwordsMatch) {
                     return Boom.unauthorized("Invalid password");
                 }
                 const token = createToken(user);
-                return h.response({ success: true, token: token }).code(201);
+                return h.response({ success: true,
+                    name: `${user.firstName} ${user.lastName}`,
+                    token: token, _id: user._id
+                }).code(201);
             }
             catch (err) {
                 return Boom.serverUnavailable("Data Error");
@@ -102,7 +110,7 @@ export const userApi = {
         tags: ["api"],
         description: "Authenticate a user",
         notes: "If user has valid email/password, create and return a JWT token",
-        validate: { payload: UserCredentialsSpec, failAction: validationError },
-        response: { schema: JwtAuth, failAction: validationError }
+        // validate: { payload: UserCredentialsSpec, failAction: validationError },
+        // response: { schema: JwtAuth, failAction: validationError }
     },
 };

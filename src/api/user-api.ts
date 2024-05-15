@@ -1,5 +1,7 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
+import { User } from "../types/placemark-types.js";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 import { UserSpec, UserSpecPlus, UserArray, IdSpec, JwtAuth, UserCredentialsSpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
@@ -7,11 +9,14 @@ import { createToken } from "./jwt-utils.js";
 export const userApi = {
   create: {
     auth: false,
-    handler: async function(request, h) {
+    handler: async function(request: Request, h: ResponseToolkit) {
       try {
-        const user = await db.userStore.addUser(request.payload);
+        console.log("HERE");
+        const userPayload = request.payload as User;
+        console.log(userPayload);
+        const user = await db.userStore.addUser(userPayload) as User;
         if (user) {
-          return h.response(user).code(201);
+          return h.response({ success: true }).code(201);
         }
         return Boom.badImplementation("error creating user");
       } catch (err) {
@@ -29,10 +34,10 @@ export const userApi = {
     auth: {
       strategy: "jwt",
     },
-    handler: async function(request, h) {
+    handler: async function(request: Request, h: ResponseToolkit) {
       try {
         const users = await db.userStore.getAllUsers();
-        return users;
+        return h.response(users).code(200);
       } catch (err) {
         return Boom.serverUnavailable("Database Error");
       }
@@ -47,15 +52,15 @@ export const userApi = {
     auth: {
       strategy: "jwt",
     },
-    handler: async function (request, h) {
+    handler: async function (request: Request, h: ResponseToolkit) {
       try {
-        const user = await db.userStore.getUserById(request.params.id);
-        if (!user) {
+        const user = await db.userStore.getUserById(request.params.id) as User;
+        if (user === null) {
           return Boom.notFound("No User with this id");
         }
-        return user;
+        return h.response(user).code(200);
       } catch (err) {
-        return Boom.serverUnavailable("No User with this id");
+        return Boom.serverUnavailable("Database Error");
       }
     },
     tags: ["api"],
@@ -69,7 +74,7 @@ export const userApi = {
     auth: {
       strategy: "jwt",
     },
-    handler: async function (request, h) {
+    handler: async function (request: Request, h: ResponseToolkit) {
       try {
         await db.userStore.deleteAll();
         return h.response().code(204);
@@ -84,17 +89,22 @@ export const userApi = {
 
   authenticate: {
     auth: false,
-    handler: async function (request, h) {
+    handler: async function (request: Request, h: ResponseToolkit) {
+      const payload = request.payload as User;
       try {
-        const user = await db.userStore.getUserByEmail(request.payload.email);
-        if (!user) {
+        const user = await db.userStore.getUserByEmail(payload.email) as User;
+        if (user === null) {
           return Boom.unauthorized("User not found");
         }
-        if (user.password !== request.payload.password){
+        const passwordsMatch: boolean = payload.password === user.password;
+        if (!passwordsMatch){
           return Boom.unauthorized("Invalid password");
         }
         const token = createToken(user);
-        return h.response({ success: true, token: token }).code(201);
+        return h.response({ success: true, 
+          name: `${user.firstName} ${user.lastName}`, 
+          token: token, _id: user._id 
+        }).code(201);
       } catch (err) {
         return Boom.serverUnavailable("Data Error");
       }
@@ -102,7 +112,7 @@ export const userApi = {
     tags: ["api"],
     description: "Authenticate a user",
     notes: "If user has valid email/password, create and return a JWT token",
-    validate: { payload: UserCredentialsSpec, failAction: validationError },
-    response: { schema: JwtAuth, failAction: validationError }
+    // validate: { payload: UserCredentialsSpec, failAction: validationError },
+    // response: { schema: JwtAuth, failAction: validationError }
   },
 };
