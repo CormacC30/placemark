@@ -1,15 +1,17 @@
 import Boom from "@hapi/boom";
 import { validationError } from "./logger.js";
 import { IdSpec, PlacemarkArraySpec, PlacemarkSpec, PlacemarkSpecPlus } from "../models/joi-schemas.js";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 import { db } from "../models/db.js";
+import { Placemark } from "../types/placemark-types.js";
 
 export const placemarkApi = {
     find: {
         auth: { strategy: "jwt", },
-        handler: async function (request, h) {
+        handler: async function (request: Request, h: ResponseToolkit) {
             try {
                 const placemarks = await db.placemarkStore.getAllPlacemarks();
-                return placemarks;
+                return h.response(placemarks).code(200);
             } catch (err) {
                 return Boom.serverUnavailable("Database Error");
             }
@@ -22,15 +24,15 @@ export const placemarkApi = {
 
     findOne: {
         auth: { strategy: "jwt", },
-        async handler(request) {
+        async handler(request: Request, h: ResponseToolkit) {
           try {
             const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
-            if (!placemark) {
+            if (placemark === null) {
               return Boom.notFound("No Placemark with this id");
             }
-            return placemark;
+            return h.response(placemark).code(200);
           } catch (err) {
-            return Boom.serverUnavailable("No Placemark with this id");
+            return Boom.notFound("No Placemark with this id");
           }
         },
         tags: ["api"],
@@ -42,11 +44,11 @@ export const placemarkApi = {
 
     create: {
         auth: { strategy: "jwt", },
-        handler: async function (request, h) {
+        handler: async function (request: Request, h: ResponseToolkit) {
             try {
                 const placemark = request.payload;
-                const newPlacemark = await db.placemarkStore.addPlacemark(placemark);
-                if (newPlacemark) {
+                const newPlacemark = (await db.placemarkStore.addPlacemark(placemark)) as Placemark;  // careful, is changed rel to lab, not tried
+                if (newPlacemark !== null) {
                     return h.response(newPlacemark).code(201);
                 }
                 return Boom.badImplementation("error creating placemark");                
@@ -63,7 +65,7 @@ export const placemarkApi = {
 
     deleteAll: {
         auth: { strategy: "jwt", },
-        handler: async function (request, h) {
+        handler: async function (request: Request, h: ResponseToolkit) {
             try{
                 await db.placemarkStore.deleteAllPlacemarks();
                 return h.response().code(204);
@@ -77,13 +79,13 @@ export const placemarkApi = {
 
     deleteOne: {
         auth: { strategy: "jwt", },
-        handler: async function (request, h) {
+        handler: async function (request: Request, h: ResponseToolkit) {
           try {
             const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
-            if (!placemark) {
+            if (placemark === null) {
               return Boom.notFound("No Placemark with this id");
             }
-            await db.placemarkStore.deletePlacemarkById(placemark._id);
+            await db.placemarkStore.deletePlacemarkById(placemark._id); // mignt need to be changed as per lab if it doesn't work
             return h.response().code(204);
           } catch (err) {
             return Boom.serverUnavailable("No Placemark with this id");

@@ -8,7 +8,7 @@ export const placemarkApi = {
         handler: async function (request, h) {
             try {
                 const placemarks = await db.placemarkStore.getAllPlacemarks();
-                return placemarks;
+                return h.response(placemarks).code(200);
             }
             catch (err) {
                 return Boom.serverUnavailable("Database Error");
@@ -21,16 +21,16 @@ export const placemarkApi = {
     },
     findOne: {
         auth: { strategy: "jwt", },
-        async handler(request) {
+        async handler(request, h) {
             try {
                 const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
-                if (!placemark) {
+                if (placemark === null) {
                     return Boom.notFound("No Placemark with this id");
                 }
-                return placemark;
+                return h.response(placemark).code(200);
             }
             catch (err) {
-                return Boom.serverUnavailable("No Placemark with this id");
+                return Boom.notFound("No Placemark with this id");
             }
         },
         tags: ["api"],
@@ -44,8 +44,8 @@ export const placemarkApi = {
         handler: async function (request, h) {
             try {
                 const placemark = request.payload;
-                const newPlacemark = await db.placemarkStore.addPlacemark(placemark);
-                if (newPlacemark) {
+                const newPlacemark = (await db.placemarkStore.addPlacemark(placemark)); // careful, is changed rel to lab, not tried
+                if (newPlacemark !== null) {
                     return h.response(newPlacemark).code(201);
                 }
                 return Boom.badImplementation("error creating placemark");
@@ -79,10 +79,10 @@ export const placemarkApi = {
         handler: async function (request, h) {
             try {
                 const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
-                if (!placemark) {
+                if (placemark === null) {
                     return Boom.notFound("No Placemark with this id");
                 }
-                await db.placemarkStore.deletePlacemarkById(placemark._id);
+                await db.placemarkStore.deletePlacemarkById(placemark._id); // mignt need to be changed as per lab if it doesn't work
                 return h.response().code(204);
             }
             catch (err) {
