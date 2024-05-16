@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { Request } from "@hapi/hapi";
+import { Request, ResponseToolkit } from "@hapi/hapi";
 import dotenv from "dotenv";
 import { db } from "../models/db.js";
 import { User } from "../types/placemark-types.js";
@@ -34,12 +34,17 @@ export function decodeToken(token: string): JwtPayload | null {
   return null;
 }
 
-export async function validate(decoded: JwtPayload) {
-  const user = (await db.userStore.findOne(decoded.id)) as User;
-  if (user === null) {
+export function validate(decoded: JwtPayload) {
+  try {
+    const user: User = db.userStore.getUserById(decoded.id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return { isValid: true, credentials: { user } };
+  } catch (err) {
+    console.error('Validation error:', err);
     return { isValid: false };
   }
-  return { isValid: true, credentials: user };
 }
 
 export function getUserIdFromRequest(request: Request): string {

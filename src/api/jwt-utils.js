@@ -29,12 +29,18 @@ export function decodeToken(token) {
     }
     return null;
 }
-export async function validate(decoded) {
-    const user = (await db.userStore.findOne(decoded.id));
-    if (user === null) {
+export function validate(decoded) {
+    try {
+        const user = db.userStore.getUserById(decoded.id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return { isValid: true, credentials: { user } };
+    }
+    catch (err) {
+        console.error('Validation error:', err);
         return { isValid: false };
     }
-    return { isValid: true, credentials: user };
 }
 export function getUserIdFromRequest(request) {
     let userId = null;

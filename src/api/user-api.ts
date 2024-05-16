@@ -92,7 +92,7 @@ export const userApi = {
     handler: async function (request: Request, h: ResponseToolkit) {
       const payload = request.payload as User;
       try {
-        const user = await db.userStore.getUserByEmail(payload.email) as User;
+        const user = (await db.userStore.getUserByEmail(payload.email)) as User;
         if (user === null) {
           return Boom.unauthorized("User not found");
         }
