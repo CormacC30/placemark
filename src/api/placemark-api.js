@@ -7,7 +7,8 @@ export const placemarkApi = {
         auth: { strategy: "jwt", },
         handler: async function (request, h) {
             try {
-                const placemarks = await db.placemarkStore.getAllPlacemarks();
+                const userId = request.auth.credentials.id;
+                const placemarks = await db.placemarkStore.getUserPlacemarks(userId);
                 return h.response(placemarks).code(200);
             }
             catch (err) {

@@ -35,7 +35,7 @@ export function validate(decoded) {
         if (!user) {
             throw new Error('User not found');
         }
-        return { isValid: true, credentials: { user } };
+        return { isValid: true, credentials: { id: decoded.id } };
     }
     catch (err) {
         console.error('Validation error:', err);
