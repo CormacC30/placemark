@@ -52,11 +52,11 @@ export const siteApi = {
         auth: { strategy: "jwt" },
         handler: async function (request, h) {
             try {
-                const placemark = (await db.placemarkStore.getPlacemarkById(request.params.id)); // maybe want to look at how placemark is retrieved
+                const placemark = (await db.placemarkStore.getPlacemarkById(request.params.id));
                 if (placemark === null) {
                     return Boom.notFound("No Placemark with this ID");
                 }
-                const sitePayload = request.payload; // this is where issues might start arising
+                const sitePayload = request.payload;
                 const site = {
                     title: sitePayload.title,
                     year: sitePayload.year,
@@ -64,9 +64,9 @@ export const siteApi = {
                     latitude: sitePayload.latitude,
                     longitude: sitePayload.longitude,
                     description: sitePayload.description,
-                    placemark: placemark,
+                    placemarkid: placemark._id, // Ensure placemark ID is set correctly
                 };
-                const newSite = await db.siteStore.addSite(placemark._id, request.payload);
+                const newSite = await db.siteStore.addSite(placemark._id, site);
                 if (newSite) {
                     return h.response(newSite).code(201);
                 }

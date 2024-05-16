@@ -33,7 +33,7 @@ export const SiteSpec = Joi.object()
 .keys({
   title: Joi.string().required().example("Newgrange"),
   year: Joi.number().integer().required().example(3000),
-  era: Joi.string().required().example("BC"),
+  era: Joi.string().valid('BC', 'AD').required(),
   latitude: Joi.number().precision(6).allow("").optional().example(52.123), // left this as optional
   longitude: Joi.number().precision(6).allow("").optional().example(4.365), // again left as optional may change later
   description: Joi.string().optional().allow("").example("Ancient burial site"),

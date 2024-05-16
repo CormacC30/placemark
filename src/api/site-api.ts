@@ -53,38 +53,39 @@ export const siteApi = {
   },
 
   create: {
-    auth: { strategy: "jwt" },
-    handler: async function (request: Request, h: ResponseToolkit) {
-      try {
-        const placemark = (await db.placemarkStore.getPlacemarkById(request.params.id)) as Placemark; // maybe want to look at how placemark is retrieved
-        if (placemark === null) {
-          return Boom.notFound("No Placemark with this ID");
-        }
-        const sitePayload = request.payload as Site; // this is where issues might start arising
-        const site = {
-          title: sitePayload.title,
-          year: sitePayload.year,
-          era: sitePayload.era,
-          latitude: sitePayload.latitude,
-          longitude: sitePayload.longitude,
-          description: sitePayload.description,
-          placemark: placemark,
-        };
-        const newSite = await db.siteStore.addSite(placemark._id, request.payload);
-        if (newSite) {
-          return h.response(newSite).code(201);
-        }
-        return Boom.badImplementation("error creating site");
-      } catch (err) {
-        return Boom.serverUnavailable("Database error");
+  auth: { strategy: "jwt" },
+  handler: async function (request: Request, h: ResponseToolkit) {
+    try {
+      const placemark = (await db.placemarkStore.getPlacemarkById(request.params.id)) as Placemark;
+      if (placemark === null) {
+        return Boom.notFound("No Placemark with this ID");
       }
-    },
-    tags: ["api"],
-    description: "Create a site",
-    notes: "Returns the newly created site",
-    validate: { payload: SiteSpec },
-    response: { schema: SiteSpecPlus, failAction: validationError },
+      const sitePayload = request.payload as Site;
+      const site = {
+        title: sitePayload.title,
+        year: sitePayload.year,
+        era: sitePayload.era,
+        latitude: sitePayload.latitude,
+        longitude: sitePayload.longitude,
+        description: sitePayload.description,
+        placemarkid: placemark._id,  // Ensure placemark ID is set correctly
+      };
+      const newSite = await db.siteStore.addSite(placemark._id, site);
+      if (newSite) {
+        return h.response(newSite).code(201);
+      }
+      return Boom.badImplementation("error creating site");
+    } catch (err) {
+      return Boom.serverUnavailable("Database error");
+    }
   },
+  tags: ["api"],
+  description: "Create a site",
+  notes: "Returns the newly created site",
+  validate: { payload: SiteSpec },
+  response: { schema: SiteSpecPlus, failAction: validationError },
+},
+
 
   deleteOne: {
     auth: { strategy: "jwt" },
