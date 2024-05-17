@@ -47,8 +47,10 @@ export const placemarkApi = {
         auth: { strategy: "jwt", },
         handler: async function (request: Request, h: ResponseToolkit) {
             try {
-                const placemark = request.payload;
-                const newPlacemark = (await db.placemarkStore.addPlacemark(placemark)) as Placemark;  // careful, is changed rel to lab, not tried
+                const userId = request.auth.credentials.id as string;
+                const placemark = request.payload as Placemark;
+                placemark.userid = userId; // i dunno
+                const newPlacemark = (await db.placemarkStore.addPlacemark(placemark)) as Placemark;
                 if (newPlacemark !== null) {
                     return h.response(newPlacemark).code(201);
                 }

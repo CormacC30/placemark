@@ -11,7 +11,7 @@ export type User = {
     img: string;
     category: String;
     _id?: string;
-    user: User | string;
+    userid: User | string;
     sites?: any[];
   };
 
