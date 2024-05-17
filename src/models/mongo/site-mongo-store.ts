@@ -26,6 +26,13 @@ export const siteMongoStore = {
     return null;
   },
 
+  async getUserSites(userId: String) {
+    if (userId) {
+      const sites = await Site.find({ userid: userId }).lean();
+      return sites;
+    }
+  },
+
   async deleteSite(id) {
     try {
       await Site.deleteOne({ _id: id });

@@ -82,6 +82,23 @@ export const siteApi = {
         validate: { payload: SiteSpec },
         response: { schema: SiteSpecPlus, failAction: validationError },
     },
+    getUserSites: {
+        auth: { strategy: "jwt" },
+        handler: async (request, h) => {
+            try {
+                const userId = request.auth.credentials.id;
+                const sites = await db.siteStore.getUserSites(userId);
+                return h.response(sites).code(200);
+            }
+            catch (err) {
+                return Boom.serverUnavailable("Database Error");
+            }
+        },
+        tags: ["api"],
+        description: "Get all sites for a user",
+        notes: "Returns all sites for the logged in user",
+        response: { schema: SiteArray, failAction: "log" },
+    },
     deleteOne: {
         auth: { strategy: "jwt" },
         handler: async function (request, h) {

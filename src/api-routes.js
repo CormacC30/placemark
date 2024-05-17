@@ -16,6 +16,7 @@ export const apiRoutes = [
     { method: "GET", path: "/api/placemarks/{id}/sites", config: siteApi.findByPlacemark },
     { method: "POST", path: "/api/placemarks/{id}/sites", config: siteApi.create },
     { method: "GET", path: "/api/sites/{id}", config: siteApi.findOne },
+    { method: "GET", path: "/api/sites/user", config: siteApi.getUserSites },
     { method: "DELETE", path: "/api/sites/{id}", config: siteApi.deleteOne },
     { method: "DELETE", path: "/api/sites", config: siteApi.deleteAll },
 ];

@@ -20,6 +20,7 @@ export const apiRoutes = [
   { method: "GET" as const, path: "/api/placemarks/{id}/sites", config: siteApi.findByPlacemark},
   { method: "POST" as const, path: "/api/placemarks/{id}/sites", config: siteApi.create },
   { method: "GET" as const, path: "/api/sites/{id}", config: siteApi.findOne },
+  { method: "GET" as const, path: "/api/sites/user", config: siteApi.getUserSites },
   { method: "DELETE" as const, path: "/api/sites/{id}", config: siteApi.deleteOne },
   { method: "DELETE" as const, path: "/api/sites", config: siteApi.deleteAll },
 ];
