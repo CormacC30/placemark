@@ -10,6 +10,7 @@ export const NewIdSpec = Joi.object({
 
 export const UserCredentialsSpec = Joi.object()
   .keys({
+    name: Joi.string(),
     email: Joi.string().email().example("homer@simpson.com").required(),
     password: Joi.string().pattern(/^[a-zA-Z0-9]{3,30}$/).example("secret").required(),
   })
@@ -66,10 +67,13 @@ export const PlacemarkSpecPlus = PlacemarkSpec.keys({
 
 export const PlacemarkArraySpec = Joi.array().items(PlacemarkSpecPlus).label("PlacemarkArray");
 
-// authentication schema
+// JWT authentication schema
+// Updated to accept the session object returned from front end app
 
 export const JwtAuth = Joi.object()
   .keys({
+    name: Joi.string().example("Homer Simpson"),
+    _id: IdSpec,
     success: Joi.boolean().example("true").required(),
     token: Joi.string().example("eyJhbGciOiJND.g5YmJisIjoiaGYwNTNjAOhE.gCWGmY5-YigQw0DCBo").required(),
   })

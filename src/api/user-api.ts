@@ -11,9 +11,7 @@ export const userApi = {
     auth: false,
     handler: async function(request: Request, h: ResponseToolkit) {
       try {
-        console.log("HERE");
         const userPayload = request.payload as User;
-        console.log(userPayload);
         const user = await db.userStore.addUser(userPayload) as User;
         if (user) {
           return h.response({ success: true }).code(201);
@@ -112,7 +110,7 @@ export const userApi = {
     tags: ["api"],
     description: "Authenticate a user",
     notes: "If user has valid email/password, create and return a JWT token",
-    // validate: { payload: UserCredentialsSpec, failAction: validationError },
-    // response: { schema: JwtAuth, failAction: validationError }
+    validate: { payload: UserCredentialsSpec, failAction: validationError },
+    response: { schema: JwtAuth, failAction: validationError }
   },
 };
