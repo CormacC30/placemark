@@ -1,11 +1,11 @@
 import Boom from "@hapi/boom";
+import bcrypt from "bcrypt";
 import { db } from "../models/db.js";
 import { User } from "../types/placemark-types.js";
 import { Request, ResponseToolkit } from "@hapi/hapi";
 import { UserSpec, UserSpecPlus, UserArray, IdSpec, JwtAuth, UserCredentialsSpec, SuccessResponse } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
-import bcrypt from "bcrypt";
 
 const saltRounds = 10;
 
@@ -17,6 +17,7 @@ export const userApi = {
         const userPayload = request.payload as User;
         const hashedPassword = await bcrypt.hash(userPayload.password, saltRounds);
         userPayload.password = hashedPassword;
+        console.log(hashedPassword);
         const user = await db.userStore.addUser(userPayload) as User;
         if (user) {
           return h.response({ success: true }).code(201);
