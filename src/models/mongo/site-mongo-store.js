@@ -1,3 +1,4 @@
+import { Placemark } from "./placemark.js";
 import { Site } from "./site.js";
 export const siteMongoStore = {
     async getAllSites() {
@@ -22,10 +23,10 @@ export const siteMongoStore = {
         return null;
     },
     async getUserSites(userId) {
-        if (userId) {
-            const sites = await Site.find({ userid: userId }).lean();
-            return sites;
-        }
+        const placemarks = await Placemark.find({ userid: userId }).lean();
+        const placemarkIds = placemarks.map((placemark) => placemark._id);
+        const sites = await Site.find({ placemarkid: { $in: placemarkIds } }).lean();
+        return sites;
     },
     async deleteSite(id) {
         try {

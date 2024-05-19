@@ -1,6 +1,6 @@
 import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
-import { UserSpec, UserSpecPlus, UserArray, IdSpec } from "../models/joi-schemas.js";
+import { UserSpecPlus, UserArray, IdSpec } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
 export const userApi = {
@@ -24,8 +24,8 @@ export const userApi = {
         tags: ["api"],
         description: "Create a User",
         notes: "Returns the newly created user",
-        validate: { payload: UserSpec, failAction: validationError },
-        response: { schema: UserSpecPlus, failAction: validationError },
+        // validate: { payload: UserSpec, failAction: validationError },
+        // response: { schema: UserSpecPlus, failAction: validationError },
     },
     find: {
         auth: {

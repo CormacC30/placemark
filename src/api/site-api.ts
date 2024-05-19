@@ -91,6 +91,7 @@ export const siteApi = {
     handler: async (request: Request, h: ResponseToolkit) => {
       try {
         const userId = request.auth.credentials.id;
+        console.log("User ID: " + userId);
         const sites = await db.siteStore.getUserSites(userId);
         return h.response(sites).code(200);
       } catch (err) {
