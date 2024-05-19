@@ -2,7 +2,7 @@ import Boom from "@hapi/boom";
 import { db } from "../models/db.js";
 import { User } from "../types/placemark-types.js";
 import { Request, ResponseToolkit } from "@hapi/hapi";
-import { UserSpec, UserSpecPlus, UserArray, IdSpec, JwtAuth, UserCredentialsSpec } from "../models/joi-schemas.js";
+import { UserSpec, UserSpecPlus, UserArray, IdSpec, JwtAuth, UserCredentialsSpec, SuccessResponse } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
 
@@ -11,6 +11,7 @@ export const userApi = {
     auth: false,
     handler: async function(request: Request, h: ResponseToolkit) {
       try {
+        console.log("Payload received by server:", request.payload);
         const userPayload = request.payload as User;
         const user = await db.userStore.addUser(userPayload) as User;
         if (user) {
@@ -24,8 +25,8 @@ export const userApi = {
     tags: ["api"],
     description: "Create a User",
     notes: "Returns the newly created user",
-    // validate: { payload: UserSpec, failAction: validationError },
-    // response: { schema: UserSpecPlus, failAction: validationError },
+    validate: { payload: UserSpec, failAction: validationError },
+    response: { schema: SuccessResponse, failAction: validationError },
   },
 
   find: {

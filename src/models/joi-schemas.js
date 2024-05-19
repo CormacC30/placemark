@@ -7,7 +7,6 @@ export const NewIdSpec = Joi.object({
 // user schema
 export const UserCredentialsSpec = Joi.object()
     .keys({
-    name: Joi.string(),
     email: Joi.string().email().example("homer@simpson.com").required(),
     password: Joi.string().pattern(/^[a-zA-Z0-9]{3,30}$/).example("secret").required(),
 })
@@ -21,6 +20,10 @@ export const UserSpecPlus = UserSpec.keys({
     __v: Joi.number(),
 }).label("UserDetailsPlus");
 export const UserArray = Joi.array().items(UserSpecPlus).label("UserArray");
+// validate the success response 
+export const SuccessResponse = Joi.object({
+    success: Joi.boolean().required().example(true),
+});
 // site schema
 export const SiteSpec = Joi.object()
     .keys({
