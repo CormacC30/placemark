@@ -36,6 +36,9 @@ export const siteMongoStore = {
             console.log("bad id");
         }
     },
+    async deleteSitesByPlacemarkId(placemarkId) {
+        await Site.deleteMany({ placemarkid: placemarkId });
+    },
     async deleteAllSites() {
         await Site.deleteMany({});
     },

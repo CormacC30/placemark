@@ -42,6 +42,10 @@ export const siteMongoStore = {
     }
   },
 
+  async deleteSitesByPlacemarkId(placemarkId: string) {
+    await Site.deleteMany({ placemarkid: placemarkId });
+  },
+
   async deleteAllSites() {
     await Site.deleteMany({});
   },

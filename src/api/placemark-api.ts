@@ -88,14 +88,15 @@ export const placemarkApi = {
             if (placemark === null) {
               return Boom.notFound("No Placemark with this id");
             }
-            await db.placemarkStore.deletePlacemarkById(placemark._id); // mignt need to be changed as per lab if it doesn't work
+            await db.siteStore.deleteSitesByPlacemarkId(placemark._id); // Cascading delete: removes all associated sites
+            await db.placemarkStore.deletePlacemarkById(placemark._id); 
             return h.response().code(204);
           } catch (err) {
             return Boom.serverUnavailable("No Placemark with this id");
           }
         },
         tags: ["api"],
-        description: "Delete a placemark",
+        description: "Delete a placemark, and its associated sites",
         validate: { params: { id: IdSpec }, failAction: validationError }
       },
 }
