@@ -5,14 +5,18 @@ import { Request, ResponseToolkit } from "@hapi/hapi";
 import { UserSpec, UserSpecPlus, UserArray, IdSpec, JwtAuth, UserCredentialsSpec, SuccessResponse } from "../models/joi-schemas.js";
 import { validationError } from "./logger.js";
 import { createToken } from "./jwt-utils.js";
+import bcrypt from "bcrypt";
+
+const saltRounds = 10;
 
 export const userApi = {
   create: {
     auth: false,
     handler: async function(request: Request, h: ResponseToolkit) {
       try {
-        console.log("Payload received by server:", request.payload);
         const userPayload = request.payload as User;
+        const hashedPassword = await bcrypt.hash(userPayload.password, saltRounds);
+        userPayload.password = hashedPassword;
         const user = await db.userStore.addUser(userPayload) as User;
         if (user) {
           return h.response({ success: true }).code(201);
@@ -95,7 +99,7 @@ export const userApi = {
         if (user === null) {
           return Boom.unauthorized("User not found");
         }
-        const passwordsMatch: boolean = payload.password === user.password;
+        const passwordsMatch: boolean = await bcrypt.compare(payload.password, user.password);
         if (!passwordsMatch){
           return Boom.unauthorized("Invalid password");
         }
