@@ -137,4 +137,24 @@ export const siteApi = {
     tags: ["api"],
     description: "Delete all siteAPI",
   },
+  
+  updateSiteImage: {
+    auth: { strategy: "jwt" },
+    handler: async function (request: Request, h: ResponseToolkit) {
+      try {
+        const { siteId } = request.params;
+        const { imageUrl } = request.payload as { imageUrl: string };
+        const site = await db.siteStore.updateSiteImage(siteId, imageUrl);
+        if (site) {
+          return h.response(site).code(200);
+        }
+        return Boom.notFound("Site not found");
+      } catch (err) {
+        return Boom.serverUnavailable("Database error");
+      }
+    },
+    tags: ["api"],
+    description: "Update site image",
+    notes: "Updates the image URL of a site",
+  },
 };

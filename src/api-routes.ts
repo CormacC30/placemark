@@ -15,6 +15,7 @@ export const apiRoutes = [
   { method: "DELETE" as const, path: "/api/placemarks/{id}", config: placemarkApi.deleteOne },
   { method: "DELETE" as const, path: "/api/placemarks", config: placemarkApi.deleteAll },
   { method: "GET" as const, path: "/api/placemarks/{id}", config: placemarkApi.findOne },
+  { method: "PUT" as const, path: "/api/placemarks/{id}/image", config: placemarkApi.updateImage },
   
   { method: "GET" as const, path: "/api/sites", config: siteApi.find },
   { method: "GET" as const, path: "/api/placemarks/{id}/sites", config: siteApi.findByPlacemark},
@@ -23,4 +24,5 @@ export const apiRoutes = [
   { method: "GET" as const, path: "/api/sites/user", config: siteApi.getUserSites },
   { method: "DELETE" as const, path: "/api/sites/{id}", config: siteApi.deleteOne },
   { method: "DELETE" as const, path: "/api/sites", config: siteApi.deleteAll },
+  { method: "PATCH" as const, path: "/api/sites/{id}/image", config: siteApi.updateSiteImage}
 ];

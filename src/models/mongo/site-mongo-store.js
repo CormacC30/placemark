@@ -42,6 +42,15 @@ export const siteMongoStore = {
     async deleteAllSites() {
         await Site.deleteMany({});
     },
+    async updateSiteImage(siteId, imageUrl) {
+        const site = await Site.findById(siteId);
+        if (site) {
+            site.img = imageUrl;
+            await site.save();
+            return site;
+        }
+        return null;
+    },
     async updateSite(updatedSite) {
         const site = await Site.findOne({ _id: updatedSite._id });
         site.title = updatedSite.title;

@@ -99,4 +99,26 @@ export const placemarkApi = {
         description: "Delete a placemark, and its associated sites",
         validate: { params: { id: IdSpec }, failAction: validationError }
       },
-}
+
+      updateImage: {
+        auth: { strategy: "jwt" },
+        handler: async function (request: Request, h: ResponseToolkit) {
+          try {
+            const { imageUrl } = request.payload as { imageUrl: string };
+            const placemark = await db.placemarkStore.getPlacemarkById(request.params.id);
+            if (!placemark) {
+              return Boom.notFound("No Placemark with this id");
+            }
+            placemark.img = imageUrl;
+            await db.placemarkStore.updatePlacemark(placemark);
+            return h.response(placemark).code(200);
+          } catch (err) {
+            return Boom.serverUnavailable("Database error");
+          }
+        },
+        tags: ["api"],
+        description: "Update a placemark's image",
+        notes: "Updates the image of a specific placemark",
+      }
+  
+};
