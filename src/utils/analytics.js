@@ -1,8 +1,7 @@
 export const analytics = {
-
     getSiteAge(year, era) {
         let correctYear = 0;
-        switch(era){
+        switch (era) {
             case "AD":
                 correctYear = -year;
                 break;
@@ -11,11 +10,11 @@ export const analytics = {
                 break;
             default:
                 correctYear = year;
-        };
+        }
+        ;
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
         const age = correctYear + currentYear;
         return age;
     },
-
 };

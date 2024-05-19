@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",  // Extends the main TypeScript configuration
+  "compilerOptions": {
+    "outDir": "./built/tests",
+    "rootDir": "./test",
+    "types": ["mocha"],  // Include Mocha types
+    "module": "commonjs"  // CommonJS modules are typically used for Node.js
+  },
+  "include": [
+    "test/**/*"  // Include all files in the test directory
+  ]
+}
