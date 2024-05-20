@@ -20,5 +20,5 @@ export const apiRoutes = [
     { method: "GET", path: "/api/sites/user", config: siteApi.getUserSites },
     { method: "DELETE", path: "/api/sites/{id}", config: siteApi.deleteOne },
     { method: "DELETE", path: "/api/sites", config: siteApi.deleteAll },
-    { method: "PATCH", path: "/api/sites/{id}/image", config: siteApi.updateSiteImage }
+    { method: "PUT", path: "/api/sites/{id}/image", config: siteApi.updateSiteImage }
 ];

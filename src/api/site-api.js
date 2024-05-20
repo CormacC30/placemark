@@ -134,24 +134,23 @@ export const siteApi = {
         tags: ["api"],
         description: "Delete all siteAPI",
     },
+    // In your site-api.ts or equivalent
     updateSiteImage: {
         auth: { strategy: "jwt" },
         handler: async function (request, h) {
             try {
-                const { siteId } = request.params;
-                const { imageUrl } = request.payload;
+                const { siteId, imageUrl } = request.payload;
                 const site = await db.siteStore.updateSiteImage(siteId, imageUrl);
-                if (site) {
-                    return h.response(site).code(200);
-                }
-                return Boom.notFound("Site not found");
+                console.log("hitting endpoint with", site.img);
+                return h.response(site).code(200);
             }
             catch (err) {
-                return Boom.serverUnavailable("Database error");
+                return Boom.serverUnavailable("Database Error");
             }
         },
         tags: ["api"],
         description: "Update site image",
         notes: "Updates the image URL of a site",
-    },
+        // validate: { payload: { siteId: IdSpec, imageUrl: String } },
+    }
 };
