@@ -48,8 +48,8 @@ export const siteApi = {
     tags: ["api"],
     description: "Find a site",
     notes: "Returns a site",
-    validate: { params: { id: IdSpec }, failAction: validationError },
-    response: { schema: SiteSpecPlus, failAction: validationError },
+    //validate: { params: { id: IdSpec }, failAction: validationError },
+    // response: { schema: SiteSpecPlus, failAction: validationError },
   },
 
   create: {
@@ -60,6 +60,7 @@ export const siteApi = {
       if (placemark === null) {
         return Boom.notFound("No Placemark with this ID");
       }
+      console.log("HERE");
       const sitePayload = request.payload as Site;
       const site = {
         title: sitePayload.title,
@@ -71,6 +72,7 @@ export const siteApi = {
         placemarkid: placemark._id,  // Ensure placemark ID is set correctly
       };
       const newSite = await db.siteStore.addSite(placemark._id, site);
+      console.log("New site ADDED");
       if (newSite) {
         return h.response(newSite).code(201);
       }
@@ -155,6 +157,28 @@ updateSiteImage: {
   description: "Update site image",
   notes: "Updates the image URL of a site",
  // validate: { payload: { siteId: IdSpec, imageUrl: String } },
+},
+
+
+deleteSiteImage: {
+  auth: { strategy: "jwt" },
+  handler: async function (request: Request, h: ResponseToolkit) {
+    try {
+      const { siteId } = request.payload as {siteId: string};
+      const success = await db.siteStore.removeSiteImage(siteId);
+      if (success) {
+        return h.response({ success: true }).code(200);
+      } else {
+        return Boom.notFound("Site not found");
+      }
+    } catch (err) {
+      return Boom.serverUnavailable("Database Error");
+    }
+  },
+  tags: ["api"],
+  description: "Delete site image",
+  notes: "Removes the image URL of a site",
+  validate: { payload: IdSpec },
 }
 
   

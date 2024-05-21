@@ -51,6 +51,21 @@ export const siteMongoStore = {
         }
         return null;
     },
+    async removeSiteImage(siteId) {
+        try {
+            const site = await Site.findById(siteId);
+            if (site) {
+                site.img = ""; // Clear the image URL
+                await site.save();
+                return true;
+            }
+            return false;
+        }
+        catch (error) {
+            console.error("Remove image error:", error);
+            return false;
+        }
+    },
     async updateSite(updatedSite) {
         const site = await Site.findOne({ _id: updatedSite._id });
         site.title = updatedSite.title;
