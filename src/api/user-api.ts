@@ -95,8 +95,10 @@ export const userApi = {
     auth: false,
     handler: async function (request: Request, h: ResponseToolkit) {
       const payload = request.payload as User;
+//      console.log("HERE");
       try {
         const user = (await db.userStore.getUserByEmail(payload.email)) as User;
+   //     console.log("response", h)
         if (user === null) {
           return Boom.unauthorized("User not found");
         }
@@ -112,6 +114,7 @@ export const userApi = {
       } catch (err) {
         return Boom.serverUnavailable("Data Error");
       }
+
     },
     tags: ["api"],
     description: "Authenticate a user",

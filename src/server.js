@@ -42,7 +42,7 @@ Object.keys(handlebarsHelpers).forEach((helperName) => {
 async function init() {
     const server = Hapi.server({
         port: process.env.PORT || 3000,
-        host: "0.0.0.0", // "localhost", // 
+        host: "0.0.0.0", // "localhost", //
         routes: { cors: true }
     });
     await server.register(Cookie);
