@@ -5,7 +5,7 @@ import { db } from "../models/db.js";
 import { User } from "../types/placemark-types.js";
 
 dotenv.config();
-const cookiePassword = process.env.cookie_password as string;
+const cookiePassword = process.env.COOKIE_PASSWORD as string;
 
 export function createToken(user: User): string {
   const payload = {
