@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { db } from "../models/db.js";
 dotenv.config();
-const cookiePassword = process.env.cookie_password;
+const cookiePassword = process.env.COOKIE_PASSWORD;
 export function createToken(user) {
     const payload = {
         id: user._id,
